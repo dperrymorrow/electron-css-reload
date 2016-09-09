@@ -1,0 +1,23 @@
+{
+  "name": "electron-css-reload",
+  "version": "1.0.0",
+  "description": "reload css on change in your electron app",
+  "main": "reload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dperrymorrow/electron-css-reload.git"
+  },
+  "keywords": [
+    "electron",
+    "css"
+  ],
+  "author": "David Morrow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dperrymorrow/electron-css-reload/issues"
+  },
+  "homepage": "https://github.com/dperrymorrow/electron-css-reload#readme"
+}
