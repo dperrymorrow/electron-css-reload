@@ -19,7 +19,6 @@ function _refresh() {
     });
 
   });
-
 }
 
 function _lastUpdated(url) {
