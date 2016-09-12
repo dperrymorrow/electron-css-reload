@@ -26,7 +26,7 @@ That't it, enjoy not restarting your Electron app every time you wanna see a CSS
 
 ## How does it work?
 
-Since Electron has access to the file system, it uses ```fs.stat mtime``` returned to see if the file has changed since the last time it was loaded.
-If so, it adds a ```?nocache={timestamp}``` to the href on the stylesheet link on the page.
+Since Electron has access to the file system, it uses ```fs.watchFile``` to watch for changes to the files loaded via ```<link>``` tags on the page. 
 
+When a change event fires, a ```?nocache={timestamp}``` is added to the href on the stylesheet link on the page.
 This forces the browser to reload the sheet as it sees it as a new url.
