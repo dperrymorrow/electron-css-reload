@@ -10,9 +10,23 @@ module.exports = function() {
       interval: 1000,
     };
 
-    fs.watchFile(_nodePath(sheet.href), opts, (curr, pref) => {
-      sheet.href = sheet.href.split(CACHE_PARAM)[0] + CACHE_PARAM + new Date().getTime();
-      console.log(`reloading: ${sheet.href}`);
+    let mainFile = _nodePath(sheet.href);
+    let deps = sheet.getAttribute('deps');
+    let prefix = mainFile.split('/');
+
+    prefix.splice(prefix.length - 1, 1)
+    prefix = prefix.join('/');
+
+    deps = deps ? deps.split(',') : [];
+    deps = deps.map((dep) => `${prefix}/${dep}`);
+    deps.push(mainFile);
+
+    deps.forEach((dep) => {
+      console.log(`watching ${dep} for changes`);
+      fs.watchFile(dep, opts, (curr, pref) => {
+        sheet.href = sheet.href.split(CACHE_PARAM)[0] + CACHE_PARAM + new Date().getTime();
+        console.log(`reloading: ${sheet.href}`);
+      });
     });
   });
 }
