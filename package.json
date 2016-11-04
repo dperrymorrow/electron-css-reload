@@ -1,6 +1,6 @@
 {
   "name": "electron-css-reload",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "reload css on change in your electron app",
   "main": "reload.js",
   "scripts": {
