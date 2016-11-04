@@ -10,8 +10,8 @@ let htmlFiles = [];
 let watchedFiles = [];
 
 module.exports = function() {
-  _inlineStyles();
-  setInterval(_externalSheets, opts.interval);
+  _externalSheets();
+  setInterval(_inlineStyles, opts.interval);
 }
 
 function _externalSheets() {
@@ -54,20 +54,16 @@ function _inlineStyles() {
 
   htmlFiles.forEach(file => {
     try {
-      console.log(`watching ${file} for changes`);
 
       if (watchedFiles.includes(file)) return;
       watchedFiles.push(file);
+      console.log(`watching ${file} for changes`);
 
       fs.watchFile(file, opts, (curr, pref) => {
         fs.readFile(file, 'utf-8', (err, data) => {
           if (err) _throw(err);
-          stash.innerHTML = data;
-          let updated = Array.from(stash.getElementsByTagName('style'));
-          updated.forEach(sheet => {
-            let id = sheet.getAttribute('id');
-            document.getElementById(id).innerHTML = sheet.innerHTML;
-          })
+          console.log(`reloading ${file}`);
+          _updateHtmlStyles(data);
         });
       });
 
@@ -75,8 +71,16 @@ function _inlineStyles() {
       _throw(err);
     }
   });
+}
 
+function _updateHtmlStyles(data) {
+  stash.innerHTML = data;
+  let updated = Array.from(stash.getElementsByTagName('style'));
 
+  updated.forEach(sheet => {
+    let id = sheet.getAttribute('id');
+    document.getElementById(id).innerHTML = sheet.innerHTML;
+  });
 }
 
 function _throw(err) {
