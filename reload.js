@@ -48,8 +48,12 @@ function _inlineStyles() {
   let styles = Array.from(document.getElementsByTagName('style'));
 
   styles.forEach(style => {
-    let file = fs.realpathSync(process.cwd() + style.getAttribute('data-source'));
-    if (!htmlFiles.includes(file)) htmlFiles.push(file);
+    let source = style.getAttribute('data-source');
+
+    if (source) {
+      let file = fs.realpathSync(process.cwd() + source);
+      if (!htmlFiles.includes(file)) htmlFiles.push(file);
+    }
   });
 
   htmlFiles.forEach(file => {
