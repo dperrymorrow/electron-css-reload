@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const CACHE_PARAM = "?nocache=";
 const opts = {
   persistent: true,
@@ -10,9 +11,9 @@ let htmlFiles = [];
 let watchedFiles = [];
 let isWin = /^win/.test(process.platform);
 
-module.exports = function() {
+module.exports = function(interval=opts.interval) {
   _externalSheets();
-  setInterval(_inlineStyles, opts.interval);
+  setInterval(_inlineStyles, interval);
 }
 
 function _externalSheets() {
@@ -21,14 +22,12 @@ function _externalSheets() {
   sheets.forEach(sheet => {
 
     let mainFile = _nodePath(sheet.href);
-	if (isWin) {
-		mainFile = mainFile.substr(1);
-	}
+    if (isWin) mainFile = mainFile.substr(1);
     let deps = sheet.getAttribute('data-sources');
     let prefix = mainFile.split('/');
 
-	prefix.splice(prefix.length - 1, 1);
-    prefix = prefix.join('/');
+    prefix.splice(prefix.length - 1, 1);
+    prefix = path.join(prefix);
 
     deps = deps ? deps.split(',') : [];
     deps = deps.map((dep) => `${prefix}/${dep}`);
