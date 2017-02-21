@@ -1,13 +1,14 @@
 const fs = require('fs');
 const CACHE_PARAM = "?nocache=";
 const opts = {
-  persistant: true,
+  persistent: true,
   interval: 1000,
 };
 
 let stash = document.createElement("div");
 let htmlFiles = [];
 let watchedFiles = [];
+let isWin = /^win/.test(process.platform);
 
 module.exports = function() {
   _externalSheets();
@@ -20,10 +21,13 @@ function _externalSheets() {
   sheets.forEach(sheet => {
 
     let mainFile = _nodePath(sheet.href);
+	if (isWin) {
+		mainFile = mainFile.substr(1);
+	}
     let deps = sheet.getAttribute('data-sources');
     let prefix = mainFile.split('/');
 
-    prefix.splice(prefix.length - 1, 1)
+	prefix.splice(prefix.length - 1, 1);
     prefix = prefix.join('/');
 
     deps = deps ? deps.split(',') : [];
