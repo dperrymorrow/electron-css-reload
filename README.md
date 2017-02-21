@@ -22,6 +22,13 @@ Or, when in dev mode, invoke the method from the start.
 require('electron-css-reload')();
 ```
 
+You can also pass in the frequency you would like it to look for chanages in your css
+> defaults to 1000 (1 second)
+
+```javascript
+reload(250)
+```
+
 That't it, enjoy not restarting your Electron app every time you wanna see a CSS change.
 
 ## Also watching dependencies of the css file
