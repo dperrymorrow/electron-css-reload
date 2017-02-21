@@ -27,7 +27,7 @@ function _externalSheets() {
     let prefix = mainFile.split('/');
 
     prefix.splice(prefix.length - 1, 1);
-    prefix = path.join(prefix);
+    prefix = prefix.join('/');
 
     deps = deps ? deps.split(',') : [];
     deps = deps.map((dep) => `${prefix}/${dep}`);
