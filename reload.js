@@ -35,6 +35,7 @@ function _externalSheets() {
 
     try {
       deps.forEach((dep) => {
+        dep = dep.replace(/%20/g, " ")
         console.log(`watching ${dep} for changes`);
         fs.watchFile(dep, opts, (curr, pref) => {
           sheet.href = sheet.href.split(CACHE_PARAM)[0] + CACHE_PARAM + new Date().getTime();
